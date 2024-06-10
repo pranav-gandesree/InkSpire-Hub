@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState} from "react";
 import {
   Flex,
   Heading,
@@ -11,17 +11,42 @@ import {
   Box,
   Avatar,
   FormControl,
-  FormHelperText,
+  // FormHelperText,
   InputRightElement
 } from "@chakra-ui/react";
-import { FaUserAlt, FaLock } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { FaUserAlt, FaLock, FaLessThanEqual } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState(false)
+  const navigate=useNavigate()
+
+  const handleRegister = async(event) =>{
+    event.preventDefault();
+
+     try{
+      const res = await axios.post("http://localhost:1111/api/auth/register", {username,email,password})
+       console.log(res.data);
+       setUsername(res.data.username);
+       setEmail(res.data.email);
+       setPassword(res.data.password)
+       setError(false)
+       navigate("/login")
+
+     }catch(e){
+       setError(true)
+        console.log(e);
+     }
+  }
+
 
   const handleShowClick = () => setShowPassword(!showPassword);
 
@@ -65,7 +90,9 @@ const Register = () => {
                     pointerEvents="none"
                     children={<CFaUserAlt color="gray.300" />}
                   />
-                  <Input type="" placeholder="enter username" />
+                  <Input type="text" placeholder="enter username"   
+                        onChange={(e)=>{setUsername(e.target.value)}}
+                  />
                 </InputGroup>
               </FormControl>
 
@@ -75,7 +102,9 @@ const Register = () => {
                     pointerEvents="none"
                     children={<CFaUserAlt color="gray.300" />}
                   />
-                  <Input type="email" placeholder="email address" />
+                  <Input type="email" placeholder="email address" 
+                         onChange={(e)=>{setEmail(e.target.value)}}
+                  />
                 </InputGroup>
               </FormControl>
 
@@ -89,6 +118,7 @@ const Register = () => {
                   <Input
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
+                    onChange={(e)=>{setPassword(e.target.value)}}
                   />
                   <InputRightElement width="4.5rem">
                     <Button h="1.75rem" size="sm" onClick={handleShowClick}>
@@ -106,6 +136,7 @@ const Register = () => {
                 variant="solid"
                 colorScheme="teal"
                 width="full"
+                onClick={handleRegister}
               >
                 Register
               </Button>
@@ -113,6 +144,7 @@ const Register = () => {
           </form>
         </Box>
       </Stack>
+       {error && <h3 className="text-red-500 text-sm ">Something went wrong</h3>}
       <Box>
         already have an account?{" "}
         <Link color="teal.500" to='/login'>
