@@ -21,6 +21,9 @@ router.post("/write",verifyToken, async(req,res)=>{
     }
 })
 
+
+
+
 //update post
 router.put('/:id',verifyToken, async(req,res)=>{
     try{
