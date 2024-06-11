@@ -16,6 +16,9 @@ import {
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import { userState } from "../recoil/atoms/userAtom";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { BsRulers } from "react-icons/bs";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -27,12 +30,15 @@ const Login = () => {
   const [password, setPassword] = useState("")
   const [error,setError] = useState("")
   const navigate=useNavigate()
+  const setUser = useSetRecoilState(userState);
 
   const handleLogin = async(event)=>{
     event.preventDefault();
     try{
-      const res = await axios.post("http://localhost:1111/api/auth/login",{email,password})
-      console.log(res)
+      const res = await axios.post("http://localhost:1111/api/auth/login",{email,password},{withCredentials: true})
+      
+      console.log(res.data)
+      setUser(res.data)
       console.log("login succesfulll")
       navigate("/")
 

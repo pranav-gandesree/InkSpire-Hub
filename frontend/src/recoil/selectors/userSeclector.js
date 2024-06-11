@@ -9,6 +9,8 @@ export const fetchUserState = selector({
       const response = await axios.get('http://localhost:1111/api/auth/refetch', {
         withCredentials: true,
       });
+      console.log("in selector")
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error);
