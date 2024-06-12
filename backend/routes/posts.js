@@ -86,6 +86,7 @@ router.get("/",async (req,res)=>{
 router.get('/user/:userId', async(req,res)=>{
     try{
         const userPosts = await Post.find({userId: req.params.userId});
+        console.log(userPosts)
         res.status(200).json({
             userPosts,
             "msg":"user posts"
