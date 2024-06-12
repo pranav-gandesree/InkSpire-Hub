@@ -6,6 +6,7 @@ import Profile from './pages/Profile'
 import './App.css'
 import PostDetails from './pages/PostDetails'
 import CreatePost from './pages/CreatePost'
+import MyBlogs from './pages/MyBlogs'
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Route path='/posts/post/:id' element={<PostDetails/>}/>
         {/* <Route exact path="/edit/:id" element={<EditPost/>}/> */}
         <Route exact path="/profile/:id" element={<Profile/>}/>
-        {/* <Route exact path="/myblogs/:id" element={<MyBlogs/>}/> */}
+        <Route exact path="/myblogs/:id" element={<MyBlogs/>}/>
       </Routes>
 
     </>
